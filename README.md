@@ -12,6 +12,87 @@ The card used is a MIFARE Classic 1k hybrid Gen 1a and Gen 4 GDM card. The Gen 1
 
 ## Software Setup
 
+There are 2 sets of switches on the right hand side of the Proxmark3 X, one upper and one lower. The upper switch can be set to 充电 (charge), 关 (off), and ID, and the lower switch, labeled 线圈 (coil), can be set to PM3 and ID. For this guide, the top switch was set to 关 (off), the middle position, and the bottom switch was set to PM3, the top position. Connect the Proxmark 3 X to a Windows computer using a USB-C cable.
+
+### Using precompiled build
+
+Download and decompress the precompiled build for RRG / Iceman [here](https://www.proxmarkbuilds.org/) (Select Latest RRG / Iceman generic build for Proxmark3 devices (non RDV4), for Proxmark3 Easy, RDV1, RDV2, RDV3, etc etc).
+
+Run `pm3-flash-all.bat`. When that finishes, run `pm3.bat` and verify that it detects the ProxMark.
+
+### Compiling ProxSpace if precompiled build is not available
+
+Download the latest release of [ProxSpace](https://github.com/Gator96100/ProxSpace) and extract it to the desired folder. Make sure that there are no spaces in the file path to the program. Then, launch `runme64.bat` and let it detect the device and begin setup. It may give an error about a firmware mismatch, but this will be fixed.
+
+#### Clone the Iceman repository:
+
+```bash
+git clone https://github.com/RfidResearchGroup/proxmark3.git
+cd proxmark3
+```
+
+#### Configure the hardware profile for the ProxMark3 X
+
+Copy the platform configuration file from the included sample file.
+
+```bash
+cp Makefile.platform.sample Makefile.platform
+```
+
+Open the newly made `Makefile.platform`:
+
+```bash
+nano Makefile.platform
+```
+
+Find the following 2 lines and uncomment them by removing the `#` at the start of the line:
+
+```bash
+PLATFORM=PM3GENERIC
+PLATFORM_EXTRAS=BTADDON
+```
+
+Save and exit (in Nano, press Ctrl+O, Enter, then Ctrl+X)
+
+#### Compile the source code
+
+Compile the environment with:
+
+```bash
+make clean
+make -j
+```
+
+#### Flash the firmware
+
+Flash the firmware with:
+
+```bash
+./pm3-flash-all
+```
+
+If the script doesn't correctly autodetect the COM port of the ProxMark3 X, explicitly pass in the port number. This can be obtained by opening Device Manager and opening the Ports dropdown.
+
+```bash
+./pm3-flash-all COM3
+```
+
+#### Launch the client
+
+After compiling, make sure that the current folder is `proxmark3`, then run
+
+```bash
+./pm3
+```
+
+The hardware can be verified and tuned with:
+
+```bash
+hw tune
+```
+
+The Proxmark3 X should now be connected.
+
 ## Clone the 125 kHz
 
 ### Copy the data from the original card
@@ -306,3 +387,7 @@ It should now look like the following, with Magic wakeup disabled (8500).
 ```
 
 The 13.56 MHz chip on the card should now be programmed!
+
+## References
+https://github.com/Gator96100/ProxSpace
+https://proxmark3x.mtoolstec.com/guides/use-proxmark3-x-on-windows

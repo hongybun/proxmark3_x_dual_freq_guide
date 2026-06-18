@@ -93,6 +93,14 @@ hw tune
 
 The Proxmark3 X should now be connected.
 
+If any of the commands below are run and return a `[!] could not create file` or `[!] file not found or locked` error, this is likely because the ProxSpace installation path was moved after it was originally installed. This can be changed to the current directory with:
+
+```bash
+prefs set savepaths --def .
+prefs set savepaths --dump .
+prefs set savepaths --trace .
+```
+
 ## Clone the 125 kHz
 
 ### Copy the data from the original card

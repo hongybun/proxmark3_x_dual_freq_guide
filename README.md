@@ -365,7 +365,7 @@ This should output something like:
 For most of these registers, `00` is disabled and `5A` is enabled. To disable magic wakeup, run
 
 ```bash
-[usb] pm3 --> hf mf gdmsetcfg --gen1a -d 85000000000000000000000000000008
+hf mf gdmsetcfg --gen1a -d 85000000000000000000000000000008
 ```
 
 and verify the configuration with:
